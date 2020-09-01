@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>ヒッピポルテの『音を出す練習』</title>
+		<link rel="icon" href="./favicon.png">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+		<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+		<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.10.3/babel.min.js"></script>
+		<link rel="stylesheet" href="./Site.css">
+		<script src="./Envelope.js"></script>
+		<script src="./FeedBack.js"></script>
+		<script src="./Operator.js"></script>
+		<script src="./Track.js"></script>
+		<script src="./Mixer.js"></script>
+		<script src="./Controller.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="article-header">音を鳴らしてみようぜ！</div>
+					<div><canvas id="waveform"/></div>
+
+					<div id="app"></div>
+					<script type="text/babel">
+						let frequencyList = ["440.00", "550.00", "660.00", "880.00"];
+						initTable(frequencyList);
+						function initTable(frequencyList){
+							let table = (
+								<table id="main-table" class="table-bordered">
+									<thead>
+										<tr>
+											<th rowspan="2">TrackNo</th>
+											<th rowspan="2">Keystroke</th>
+											<th rowspan="2">Switch</th>
+											<th colspan="3">Operator1 (carrier)</th>
+											<th colspan="4">Operator2 (modulator)</th>
+										</tr>
+										<tr>
+											<th>Frequency</th>
+											<th>Volume</th>
+											<th>Switch</th>
+											<th>Frequency</th>
+											<th>Volume</th>
+											<th>Switch</th>
+											<th>FeedBack</th>
+										</tr>
+									</thead>
+									<tbody>
+									{Array.from(frequencyList).map( (frequency, index) => (
+										<tr>
+											<td>{index + 1}</td>
+											<td><input type="button" data-trackIdx={index} class="keystroke btn btn-outline-primary" value="key" /></td>
+											<td><input type="checkbox" data-trackIdx={index} class="play" data-toggle="toggle" data-onstyle="primary" /></td>
+											<td><input type="number" data-trackIdx={index} data-opeIdx="0" class="frequency form-control" defaultValue={frequency} max="99999.99" min="0.00" step="1.00"/></td>
+											<td><input type="number" data-trackIdx={index} data-opeIdx="0" class="gain form-control" defaultValue="1" max="1000" min="0" step="1" /></td>
+											<td><input type="checkbox" data-trackIdx={index} data-opeIdx="0" class="play-ope" data-toggle="toggle" data-onstyle="primary" checked disabled /></td>
+											<td><input type="number" data-trackIdx={index} data-opeIdx="1" class="frequency form-control" defaultValue="1.00" max="99999.99" min="0.00" step="0.50"/></td>
+											<td><input type="number" data-trackIdx={index} data-opeIdx="1" class="gain form-control" defaultValue="1" max="1000" min="0" step="1" /></td>
+											<td><input type="checkbox" data-trackIdx={index} data-opeIdx="1" class="play-ope" data-toggle="toggle" data-onstyle="primary" /></td>
+											<td><input type="checkbox" data-trackIdx={index} data-opeIdx="1" class="feedback" data-toggle="toggle" data-onstyle="primary" /></td>
+										</tr>
+									))}
+									</tbody>
+								</table>
+							);
+							ReactDOM.unmountComponentAtNode(document.getElementById("app"));
+							ReactDOM.render(table, document.getElementById("app"));
+						}
+					</script>
+
+					<div class="article-header">音律を選択してみようぜ！</div>
+					<div class="input-group">
+						<select id="temperamentList" class="form-control">
+							<option value="260.7407,278.4374,293.3333,313.2421,329.9999,347.6543,371.2499,391.1111,417.6562,440,469.8632,494.9999,521.4814">
+							ピタゴラス音律</option>
+							<option value="264,275,297,305.5,330,352,366.6,396,412.5,440,458.3,495,528">
+							純正律</option>
+							<option value="261.6324,277.1891,293.6706,311.1324,329.6323,349.2323,369.9976,391.9977,415.3059,440,466.1624,493.8804,523.2465,">
+							十二平均律</option>
+						</select>
+						<span class="input-group-btn">
+							<input type="button" id="temperamentInit" class="btn btn-outline-primary" value="選択" />
+						</span>
+					</div>
+					
+					<div class="article-header">オリジナルの音律を作成してみようぜ！</div>
+					<div class="input-group">
+						<input type="text" id="temperamentText" class="form-control" placeholder="カンマ区切りで周波数を入力してください。例：440.00, 550.00, 660.00, 880.00" />
+						<span class="input-group-btn">
+							<input type="button" id="temperamentEdit" class="btn btn-outline-primary" value="作成" />
+						</span>
+					</div>
+
+					<div class="article-header">今後の課題</div>
+					<ul>
+						<li>Envelopをなんとかする</li>
+						<li>Feedbackをなんとかする</li>
+						<li>基準の周波数をもとに音律を計算する</li>
+						<li>音階と音名の入力機能をつくる</li>
+						<li>MIDI入力に対応する</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
