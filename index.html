@@ -27,7 +27,7 @@
 			<div class="row">
 				<div class="col-md-12">
 
-					<div class="article-header">音を鳴らしてみようぜ！</div>
+					<div class="article-header">音を鳴らす</div>
 					<div><canvas id="waveform"/></div>
 
 					<div id="app"></div>
@@ -39,35 +39,36 @@
 								<table id="main-table" class="table-bordered">
 									<thead>
 										<tr>
-											<th rowspan="2">TrackNo</th>
-											<th rowspan="2">Keystroke</th>
-											<th rowspan="2">Switch</th>
+											<th width="10%" rowspan="2">TrackNo</th>
+											<th width="10%" rowspan="2">Keystroke</th>
+											<th width="10%" rowspan="2">Switch</th>
 											<th colspan="3">Operator1 (carrier)</th>
 											<th colspan="4">Operator2 (modulator)</th>
+											<th width="6px" rowspan="2"></th>
 										</tr>
 										<tr>
-											<th>Frequency</th>
-											<th>Volume</th>
-											<th>Switch</th>
-											<th>Frequency</th>
-											<th>Volume</th>
-											<th>Switch</th>
-											<th>FeedBack</th>
+											<th width="10%">Frequency</th>
+											<th width="10%">Volume</th>
+											<th width="10%">Switch</th>
+											<th width="10%">Frequency</th>
+											<th width="10%">Volume</th>
+											<th width="10%">Switch</th>
+											<th width="10%">FeedBack</th>
 										</tr>
 									</thead>
 									<tbody>
 									{Array.from(frequencyList).map( (frequency, index) => (
 										<tr>
-											<td>{index + 1}</td>
-											<td><input type="button" data-trackIdx={index} class="keystroke btn btn-outline-primary" value="key" /></td>
-											<td><input type="checkbox" data-trackIdx={index} class="play" data-toggle="toggle" data-onstyle="primary" /></td>
-											<td><input type="number" data-trackIdx={index} data-opeIdx="0" class="frequency form-control" defaultValue={frequency} max="99999.99" min="0.00" step="1.00"/></td>
-											<td><input type="number" data-trackIdx={index} data-opeIdx="0" class="gain form-control" defaultValue="1" max="1000" min="0" step="1" /></td>
-											<td><input type="checkbox" data-trackIdx={index} data-opeIdx="0" class="play-ope" data-toggle="toggle" data-onstyle="primary" checked disabled /></td>
-											<td><input type="number" data-trackIdx={index} data-opeIdx="1" class="frequency form-control" defaultValue="1.00" max="99999.99" min="0.00" step="0.50"/></td>
-											<td><input type="number" data-trackIdx={index} data-opeIdx="1" class="gain form-control" defaultValue="1" max="1000" min="0" step="1" /></td>
-											<td><input type="checkbox" data-trackIdx={index} data-opeIdx="1" class="play-ope" data-toggle="toggle" data-onstyle="primary" /></td>
-											<td><input type="checkbox" data-trackIdx={index} data-opeIdx="1" class="feedback" data-toggle="toggle" data-onstyle="primary" /></td>
+											<td width="10%" >{index + 1}</td>
+											<td width="10%" ><input type="button" data-trackIdx={index} class="keystroke btn btn-outline-primary" value="key" /></td>
+											<td width="10%" ><input type="checkbox" data-trackIdx={index} class="play" data-toggle="toggle" data-onstyle="primary" /></td>
+											<td width="10%" ><input type="number" data-trackIdx={index} data-opeIdx="0" class="frequency form-control" defaultValue={frequency} max="99999.99" min="0.00" step="1.00"/></td>
+											<td width="10%" ><input type="number" data-trackIdx={index} data-opeIdx="0" class="gain form-control" defaultValue="1" max="1000" min="0" step="1" /></td>
+											<td width="10%" ><input type="checkbox" data-trackIdx={index} data-opeIdx="0" class="play-ope" data-toggle="toggle" data-onstyle="primary" checked disabled /></td>
+											<td width="10%" ><input type="number" data-trackIdx={index} data-opeIdx="1" class="frequency form-control" defaultValue="1.00" max="99999.99" min="0.00" step="0.50"/></td>
+											<td width="10%" ><input type="number" data-trackIdx={index} data-opeIdx="1" class="gain form-control" defaultValue="1" max="1000" min="0" step="1" /></td>
+											<td width="10%" ><input type="checkbox" data-trackIdx={index} data-opeIdx="1" class="play-ope" data-toggle="toggle" data-onstyle="primary" /></td>
+											<td width="10%" ><input type="checkbox" data-trackIdx={index} data-opeIdx="1" class="feedback" data-toggle="toggle" data-onstyle="primary" /></td>
 										</tr>
 									))}
 									</tbody>
@@ -78,7 +79,7 @@
 						}
 					</script>
 
-					<div class="article-header">音律を選択してみようぜ！</div>
+					<div class="article-header">音律を選択する</div>
 					<div class="input-group">
 						<select id="temperamentList" class="form-control">
 							<option value="260.7407,278.4374,293.3333,313.2421,329.9999,347.6543,371.2499,391.1111,417.6562,440,469.8632,494.9999,521.4814">
@@ -89,26 +90,19 @@
 							十二平均律</option>
 						</select>
 						<span class="input-group-btn">
-							<input type="button" id="temperamentInit" class="btn btn-outline-primary" value="選択" />
-						</span>
-					</div>
-					
-					<div class="article-header">オリジナルの音律を作成してみようぜ！</div>
-					<div class="input-group">
-						<input type="text" id="temperamentText" class="form-control" placeholder="カンマ区切りで周波数を入力してください。例：440.00, 550.00, 660.00, 880.00" />
-						<span class="input-group-btn">
-							<input type="button" id="temperamentEdit" class="btn btn-outline-primary" value="作成" />
+							<input type="button" id="temperamentLoad" class="btn btn-outline-primary" value="LOAD" />
+							<input type="button" id="temperamentDelete" class="btn btn-outline-danger" value="DELETE" />
 						</span>
 					</div>
 
-					<div class="article-header">今後の課題</div>
-					<ul>
-						<li>Envelopをなんとかする</li>
-						<li>Feedbackをなんとかする</li>
-						<li>基準の周波数をもとに音律を計算する</li>
-						<li>音階と音名の入力機能をつくる</li>
-						<li>MIDI入力に対応する</li>
-					</ul>
+					<div class="article-header">音律を追加する</div>
+					<div class="input-group">
+						<input type="text" id="temperamentName" class="form-control" placeholder="音律の名称を入力してください。" />
+						<input type="text" id="temperamentText" style="width:60%;" class="form-control" placeholder="カンマ区切りで周波数を入力してください。例：440.00, 550.00, 660.00, 880.00" />
+						<span class="input-group-btn">
+							<input type="button" id="temperamentAdd" class="btn btn-outline-primary" value="SAVE" />
+						</span>
+					</div>
 
 				</div>
 			</div>

@@ -6,6 +6,15 @@ table{
   width: 100%;
 }
 
+thead, tbody {
+  display: block;
+}
+tbody {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 300px;
+}
+
 tr{
   height: 50px;
   text-align: center;
@@ -22,6 +31,7 @@ td {
 }
 
 .container{
+  max-width:1500px;
   padding: 0px 20px 20px 20px;
   background-color: white;
 }

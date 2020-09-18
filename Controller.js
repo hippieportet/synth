@@ -143,30 +143,87 @@ $(() => {
     }
   }).boot();
 
-  $('#temperamentEdit').click((e) => {
-    let temperamentText = $('#temperamentText').val().replace(/ /g, '');
-    let tempList = temperamentText.split(',');
-    let frequencyList = tempList.filter(n => $.isNumeric(n));
-    $('#temperamentText').val(frequencyList.join(','));
-    if (frequencyList.length === 0) return;
-    if (_.mixer) _.mixer.dispose();
-    initTable(frequencyList);
-    $('input:checkbox').bootstrapToggle();
-    _.initialized = false;
-    _.boot();
-  });
-
-  $('#temperamentInit').click((e) => {
+  $('#temperamentLoad').click((e) => {
     let temperamentText = $('#temperamentList').val().replace(/ /g, '');
     let tempList = temperamentText.split(',');
     let frequencyList = tempList.filter(n => $.isNumeric(n));
-    $('#temperamentText').val(frequencyList.join(','));
-    if (frequencyList.length === 0) return;
-    if (_.mixer) _.mixer.dispose();
-    initTable(frequencyList);
-    $('input:checkbox').bootstrapToggle();
-    _.initialized = false;
-    _.boot();
+    temperamentText = frequencyList.join(',');
+    $('#temperamentText').val(temperamentText);
+    SetTemperament(frequencyList);
   });
 
+  $('#temperamentDelete').click((e) => {
+    let temperamentId = $("#temperamentList").children(":selected").attr('temperamentId');
+    DeleteTemperament(temperamentId);
+  });
+
+  $('#temperamentAdd').click((e) => {
+    let temperamentName = $('#temperamentName').val();
+    let temperamentText = $('#temperamentText').val().replace(/ /g, '');
+    let tempList = temperamentText.split(',');
+    let frequencyList = tempList.filter(n => $.isNumeric(n));
+    temperamentText = frequencyList.join(',');
+    $('#temperamentText').val(temperamentText);
+    SetTemperament(frequencyList);
+    CreateTemperament(temperamentName, temperamentText);
+  });
+
+  GetTemperaments();
+
 });
+
+function SetTemperament(frequencyList){
+  if (frequencyList.length === 0) return;
+  if (_.mixer) _.mixer.dispose();
+  initTable(frequencyList);
+  $('input:checkbox').bootstrapToggle();
+  _.initialized = false;
+  _.boot();
+}
+
+function GetTemperaments(){
+  const method = "get";
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  fetch('./api/Temperament', {method, headers})
+  .then((res)=> res.json())
+  .then((json) => {
+    $('#temperamentList > option').remove();
+    json.forEach((record) => {
+      $('#temperamentList').append($('<option>')
+      .attr('temperamentId', record['id'])
+      .html(record['id'] + ' | ' + record['name'] + ' | ' + record['value']).val(record['value']));
+    });
+  });
+}
+
+function CreateTemperament(name, frequencyList){
+  const obj = {
+    name : name,
+    value : frequencyList
+  };
+  const method = 'post';
+  const body = JSON.stringify(obj);
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  fetch('./api/Temperament', {method, headers, body})
+  .then(() => {
+    GetTemperaments();
+  });
+}
+
+function DeleteTemperament(temperamentId){
+  const method = "delete";
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  };
+  fetch("./api/Temperament/" + temperamentId, {method, headers})
+  .then(() => {
+    GetTemperaments();
+  });
+}
