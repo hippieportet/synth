@@ -7,6 +7,7 @@ class Mixer{
     this.Context = new (window.AudioContext || window.webkitAudioContext);
     this.Analyser = this.createAnalyser(this.Context.destination);
     this.Compressor = this.createCompressor(this.Analyser);
+    this.Envelope = new Envelope(this);
     this.Gain = this.createGain(this.Compressor, 1);
     this.Tracks = this.createTracks(trackCount, opeCount);
   }
@@ -53,7 +54,18 @@ class Mixer{
 
   //TrackのGain設定
   setTrackGain(trackIdx, value){
+    this.Envelope.clear(this.Tracks[trackIdx]);
     this.Tracks[trackIdx].GainValue = value;
+  }
+
+  //TrackのOn
+  setTrackOn(trackIdx){
+    this.Envelope.setTrackOn(this.Tracks[trackIdx]);
+  }
+
+  //TrackのOff
+  setTrackOff(trackIdx){
+    this.Envelope.setTrackOff(this.Tracks[trackIdx]);
   }
 
   //OperatorのGain設定

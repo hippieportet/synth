@@ -1,6 +1,3 @@
-//var pow = Math.pow;
-//var tau = 6.2831853;
-
 var _ = {}
 $(() => {
 
@@ -105,12 +102,12 @@ $(() => {
     },
     'keyOn': (trackIdx) => {
       if (!$(`.play[data-trackIdx="${trackIdx}"]`)[0].checked){
-        _.mixer.setTrackGain(trackIdx, 1);
+        _.mixer.setTrackOn(trackIdx);
       }
     },
     'keyOff': (trackIdx) => {
       if (!$(`.play[data-trackIdx="${trackIdx}"]`)[0].checked){
-        _.mixer.setTrackGain(trackIdx, 0);
+        _.mixer.setTrackOff(trackIdx);
       }
     },
     'opePlay': (trackIdx, opeIdx) => {
