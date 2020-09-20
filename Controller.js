@@ -55,6 +55,13 @@ $(() => {
           }
         }
       });
+      $('#attackTime, #decayTime, #releaseTime, #attackLevel, #sustainLevel').on({
+        'change input': (e) => {
+          _.init();
+          _.mixer.Envelope.setParameter($('#attackTime').val(), $('#decayTime').val(),
+          $('#releaseTime').val(), $('#attackLevel').val(), $('#sustainLevel').val());
+        }
+      });
       $(window).keydown((e) => {
         if (document.activeElement.tagName.toLowerCase() === 'input') return ;
         _.init();

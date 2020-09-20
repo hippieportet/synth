@@ -1,6 +1,5 @@
 class Track{
 
-  //コンストラクタ
   constructor(mixer, opeCount){
     this.ParentMixer = mixer;
     this.Gain = this.ParentMixer.createGain(this.ParentMixer.Gain, 0);
@@ -15,7 +14,6 @@ class Track{
     this.Operators[1].reConnect(this.Operators[0].Oscillator.frequency);
   }
 
-  //Operatorのリスト作成
   createOperators(opeCount){
     let operators = [];
     for (let i = 0; i < opeCount; i++){
@@ -24,7 +22,6 @@ class Track{
     return operators;
   }
 
-  //Gain設定
   set GainValue(value){
     this.Gain.gain.value = value;
   }

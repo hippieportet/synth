@@ -27,8 +27,22 @@
 			<div class="row">
 				<div class="col-md-12">
 
+					<table class="table-bordered">
+							<th>attackTime</th>
+							<td><input type="number" id="attackTime" class="form-control" value="0.5" min="0" step="0.1" /></td>
+							<th>decayTime</th>
+							<td><input type="number" id="decayTime" class="form-control" value="0.2" min="0" step="0.1" /></td>
+							<th>releaseTime</th>
+							<td><input type="number" id="releaseTime" class="form-control" value="0.3" min="0" step="0.1" /></td>
+							<th>attackLevel<th>
+							<td><input type="number" id="attackLevel" class="form-control" value="1" min="0" step="0.1" /></td>
+							<th>sustainLevel</th>
+							<td><input type="number" id="sustainLevel" class="form-control" value="0.7" min="0" step="0.1" /></td>
+					</table>
 					<div class="article-header">音を鳴らす</div>
 					<div><canvas id="waveform"/></div>
+
+
 
 					<div id="app"></div>
 					<script type="text/babel">

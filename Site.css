@@ -6,15 +6,6 @@ table{
   width: 100%;
 }
 
-thead, tbody {
-  display: block;
-}
-tbody {
-  overflow-x: hidden;
-  overflow-y: scroll;
-  height: 300px;
-}
-
 tr{
   height: 50px;
   text-align: center;
@@ -28,6 +19,10 @@ th {
 
 td {
   padding: 10px;
+}
+
+input[type="number"]{
+  text-align: right;
 }
 
 .container{
@@ -44,12 +39,14 @@ td {
   font-size: x-large;
 }
 
-.frequency {
-  text-align: right;
+#main-table thead, tbody {
+  display: block;
 }
 
-.gain {
-  text-align: right;
+#main-table tbody {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 300px;
 }
 
 #waveform {
